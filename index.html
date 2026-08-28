@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>سەوزە خانم - کارتی دیجیتاڵی</title>
     
+    <!-- فۆنتی شاهانەی El Messiri -->
     <link href="https://fonts.googleapis.com/css2?family=El+Messiri:wght@500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     
@@ -47,7 +48,7 @@
             background: #f7f7f7;
         }
 
-        /* ------------------ باگراوندی جێگیر (Fixed Background) ------------------ */
+        /* ------------------ باگراوندی جێگیری پەڕەی سەرەکی ------------------ */
         .main-bg-fixed {
             position: fixed;
             top: 0;
@@ -64,7 +65,7 @@
             pointer-events: none;
         }
 
-        /* ------------------ ١. پەڕەی دەرگای سکە ------------------ */
+        /* ------------------ ١. پەڕەی دەرگای سکە (چینەکەی سەرەوە) ------------------ */
         #door-screen {
             position: fixed;
             top: 0;
@@ -87,7 +88,7 @@
             background-repeat: no-repeat;
             position: absolute;
             top: 0;
-            transition: transform 1.2s cubic-bezier(0.77, 0, 0.175, 1);
+            transition: transform 1.3s cubic-bezier(0.77, 0, 0.175, 1);
             z-index: 2;
         }
 
@@ -141,7 +142,7 @@
             50% { transform: translate(-50%, -50%) scale(1.06); box-shadow: 0 0 35px rgba(212, 175, 55, 1); }
         }
 
-        /* ------------------ ٢. پەڕەی کاتی (٥ چرکە) ------------------ */
+        /* ------------------ ٢. پەڕەی کاتی (ڕاستەوخۆ لە ژێر دەرگاکەدایە) ------------------ */
         #intro-screen {
             position: fixed;
             top: 0;
@@ -157,14 +158,8 @@
             display: flex;
             justify-content: center;
             align-items: center;
-            opacity: 0;
-            visibility: hidden;
-            transition: opacity 0.8s ease, visibility 0.8s;
-        }
-
-        #intro-screen.active {
-            opacity: 1;
-            visibility: visible;
+            opacity: 1; /* هەمیشە ئامادەیە تا کاتی کرانەوەی دەرگاکە */
+            transition: opacity 1.2s ease;
         }
 
         .intro-box {
@@ -185,11 +180,11 @@
             z-index: 2;
             width: 100%;
             min-height: 100vh;
-            padding: 6cm 20px 2.5cm; /* 6cm مەودا لە بەشی سەرەوە */
+            padding: 6cm 20px 2.5cm; /* ٦ سانتیمەتر لە سەرەوە */
             display: flex;
             flex-direction: column;
             align-items: center;
-            gap: 3cm; /* 3cm مەودا لە نێوان سەرجەم بڕگەکان */
+            gap: 3cm; /* ٣ سانتیمەتر لە نێوان بڕگەکان */
         }
 
         .title-dark-green {
@@ -412,7 +407,9 @@
 </head>
 <body>
 
+    <!-- دەنگی ڕۆمانسی ئۆنلاین بە کوالێتی بەرز (لەگەڵ fallback بۆ فایلی ناوخۆیی) -->
     <audio id="bgMusic" loop preload="auto">
+        <source src="https://upload.wikimedia.org/wikipedia/commons/e/ea/Erik_Satie_-_Gymnop%C3%A9die_No._1_%28ISRC_USUAN1100787%29.mp3" type="audio/mpeg">
         <source src="music.mp3" type="audio/mpeg">
     </audio>
 
@@ -422,14 +419,17 @@
 
     <div class="card-container">
 
+        <!-- باگراوندی جێگیری پەڕەی سەرەکی -->
         <div class="main-bg-fixed"></div>
 
+        <!-- ١. پەڕەی دەرگای سکە -->
         <div id="door-screen">
             <div class="door-panel door-left"></div>
             <div class="door-panel door-right"></div>
             <div class="golden-seal" id="sealBtn">بیکەرەوە</div>
         </div>
 
+        <!-- ٢. پەڕەی کاتی (ڕاستەوخۆ لە پشت دەرگاکەیە) -->
         <div id="intro-screen">
             <div class="intro-box">
                 بەخێر بێیت بۆ پەیجی<br>
@@ -438,8 +438,10 @@
             </div>
         </div>
 
+        <!-- ٣. پەڕەی سەرەکی -->
         <div id="main-screen">
 
+            <!-- بەشی زانیاریەکان -->
             <div style="width: 100%; display: flex; flex-direction: column; gap: 20px;">
                 <h1 class="title-dark-green">زانیاریەکانی ناو کارتەکە</h1>
                 <div class="glass-box glass-brown" style="text-align: center; font-size: 18px; line-height: 1.9; font-weight: 600;">
@@ -447,6 +449,7 @@
                 </div>
             </div>
 
+            <!-- بەشی بەروار و کالێندەر و کاتژمێر -->
             <div class="date-section-wrapper">
                 <h2 class="title-dark-green">بەرواری بۆنەکە</h2>
                 
@@ -515,6 +518,7 @@
                 </div>
             </div>
 
+            <!-- پلانی بۆنەکە -->
             <div class="glass-box glass-brown">
                 <h3 style="text-align: center; margin-bottom: 14px; font-size: 22px; font-weight: 700; border-bottom: 1px solid rgba(255,255,255,0.25); padding-bottom: 8px;">پلانی بۆنەکە</h3>
                 <ul class="event-list">
@@ -524,6 +528,7 @@
                 </ul>
             </div>
 
+            <!-- ناونیشانی بۆنەکە -->
             <div class="map-section-wrapper">
                 <h2 class="title-dark-green">ناونیشانی بۆنەکە</h2>
                 <div class="map-wrapper">
@@ -543,6 +548,7 @@
                 </a>
             </div>
 
+            <!-- تێبینیەکان -->
             <div class="glass-box glass-brown">
                 <h3 style="text-align: center; margin-bottom: 14px; font-size: 22px; font-weight: 700; border-bottom: 1px solid rgba(255,255,255,0.25); padding-bottom: 8px;">تێبینیەکان</h3>
                 <ul class="event-list">
@@ -552,14 +558,17 @@
                 </ul>
             </div>
 
+            <!-- نوسینی بێ بۆکس -->
             <p class="plain-feedback-text">
                 هیوادارم ئێستا بەڕونی لە کارتەکانم تێگەیشتبیت کە چۆن کار دەکات
             </p>
 
+            <!-- دوگمەی پەیوەندی تەلەفۆن -->
             <a href="tel:07500000000" class="call-btn" title="پەیوەندی">
                 <i class="fa-solid fa-phone"></i>
             </a>
 
+            <!-- ناوی پەیج -->
             <div class="footer-brand">
                 🦋 سەوزە خانم 🦋
             </div>
@@ -581,33 +590,31 @@
             if (isTriggered) return;
             isTriggered = true;
 
-            // لێدانی ڕاستەوخۆی دەنگ
+            // ١. دەستپێکردنی ڕاستەوخۆی موزیکی ڕۆمانسی
             bgMusic.volume = 1;
-            bgMusic.play().then(() => {
-                console.log("دەنگ لێدرا");
-            }).catch(err => {
+            bgMusic.play().catch(err => {
                 console.log("Playback error:", err);
             });
 
-            // کرانەوەی دەرگا
+            // ٢. کرانەوەی دەرگاکە
             sealBtn.style.opacity = '0';
             sealBtn.style.pointerEvents = 'none';
             doorScreen.classList.add('door-open');
 
-            // دەرکەوتنی پەڕەی کاتی
+            // ٣. لابردنی دەرگاکە و مانەوەی تەواوی پەڕەی کاتی بۆ ماوەی ٥ چرکە
             setTimeout(() => {
-                doorScreen.style.opacity = '0';
-                setTimeout(() => doorScreen.style.display = 'none', 800);
-                
-                introScreen.classList.add('active');
+                doorScreen.style.display = 'none';
 
-                // دەرکەوتنی پەڕەی سەرەکی
+                // پاش ٥ چرکە پەڕەی کاتی دەتوێتەوە و پەڕەی سەرەکی دەردەکەوێت
                 setTimeout(() => {
-                    introScreen.classList.remove('active');
-                    setTimeout(() => introScreen.style.display = 'none', 800);
+                    introScreen.style.opacity = '0';
+                    introScreen.style.pointerEvents = 'none';
+                    setTimeout(() => {
+                        introScreen.style.display = 'none';
+                    }, 1200);
                 }, 5000);
 
-            }, 700);
+            }, 1200);
         }
 
         sealBtn.addEventListener('click', handleOpen);
