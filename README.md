@@ -1,1 +1,0 @@
-# Nmwnay_kartakanm
