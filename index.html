@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>سەوزە خانم - کارتی دیجیتاڵی</title>
     
-    <!-- فۆنتی شاهانەی El Messiri -->
+    <!-- فۆنتی لوکس و شاهانەی El Messiri -->
     <link href="https://fonts.googleapis.com/css2?family=El+Messiri:wght@500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     
@@ -65,7 +65,7 @@
             pointer-events: none;
         }
 
-        /* ------------------ ١. پەڕەی دەرگای سکە (چینەکەی سەرەوە) ------------------ */
+        /* ------------------ ١. پەڕەی دەرگای سکە ------------------ */
         #door-screen {
             position: fixed;
             top: 0;
@@ -110,6 +110,7 @@
             transform: translateX(100%);
         }
 
+        /* مۆری ئاڵتونی */
         .golden-seal {
             position: absolute;
             top: 50%;
@@ -130,7 +131,7 @@
             cursor: pointer;
             z-index: 10;
             animation: sealPulse 2s infinite ease-in-out;
-            transition: transform 0.4s, opacity 0.4s;
+            user-select: none;
         }
 
         .golden-seal:active {
@@ -142,7 +143,7 @@
             50% { transform: translate(-50%, -50%) scale(1.06); box-shadow: 0 0 35px rgba(212, 175, 55, 1); }
         }
 
-        /* ------------------ ٢. پەڕەی کاتی (ڕاستەوخۆ لە ژێر دەرگاکەدایە) ------------------ */
+        /* ------------------ ٢. پەڕەی کاتی (ڕاستەوخۆ لە پشت دەرگاکەیە) ------------------ */
         #intro-screen {
             position: fixed;
             top: 0;
@@ -158,8 +159,7 @@
             display: flex;
             justify-content: center;
             align-items: center;
-            opacity: 1; /* هەمیشە ئامادەیە تا کاتی کرانەوەی دەرگاکە */
-            transition: opacity 1.2s ease;
+            opacity: 1;
         }
 
         .intro-box {
@@ -180,7 +180,7 @@
             z-index: 2;
             width: 100%;
             min-height: 100vh;
-            padding: 6cm 20px 2.5cm; /* ٦ سانتیمەتر لە سەرەوە */
+            padding: 6cm 20px 2.5cm; /* ٦ سانتیمەتر لە سەرەوە تا نوسینی یەکەم */
             display: flex;
             flex-direction: column;
             align-items: center;
@@ -407,9 +407,8 @@
 </head>
 <body>
 
-    <!-- دەنگی ڕۆمانسی ئۆنلاین بە کوالێتی بەرز (لەگەڵ fallback بۆ فایلی ناوخۆیی) -->
-    <audio id="bgMusic" loop preload="auto">
-      <source src="gardun.mp3" type="audio/mpeg">
+    <!-- فایلی گۆرانی خۆماڵی gardun.mp3 -->
+    <audio id="bgMusic" loop preload="auto" playsinline>
         <source src="gardun.mp3" type="audio/mpeg">
     </audio>
 
@@ -429,7 +428,7 @@
             <div class="golden-seal" id="sealBtn">بیکەرەوە</div>
         </div>
 
-        <!-- ٢. پەڕەی کاتی (ڕاستەوخۆ لە پشت دەرگاکەیە) -->
+        <!-- ٢. پەڕەی کاتی -->
         <div id="intro-screen">
             <div class="intro-box">
                 بەخێر بێیت بۆ پەیجی<br>
@@ -578,35 +577,42 @@
     </div>
 
     <script>
-        const doorScreen = document.getElementById('door-screen');
         const sealBtn = document.getElementById('sealBtn');
+        const doorScreen = document.getElementById('door-screen');
         const introScreen = document.getElementById('intro-screen');
         const bgMusic = document.getElementById('bgMusic');
         const musicToggle = document.getElementById('musicToggle');
 
-        let isTriggered = false;
+        let isOpened = false;
 
-        function handleOpen() {
-            if (isTriggered) return;
-            isTriggered = true;
+        // کاتێک مۆری ئاڵتونی دادەگیرێت
+        sealBtn.onclick = function() {
+            if (isOpened) return;
+            isOpened = true;
 
-            // ١. دەستپێکردنی ڕاستەوخۆی موزیکی ڕۆمانسی
-            bgMusic.volume = 1;
-            bgMusic.play().catch(err => {
-                console.log("Playback error:", err);
+            // ١. لێدانی دەنگ ڕاستەوخۆ بە شێوازی سەلامەت
+            bgMusic.play().then(() => {
+                musicToggle.innerHTML = '<i class="fa-solid fa-music"></i>';
+            }).catch(e => {
+                console.log("Audio play caught:", e);
             });
 
-            // ٢. کرانەوەی دەرگاکە
+            // ٢. ونبوونی مۆر و کرانەوەی دەرگا
+            sealBtn.style.transition = 'opacity 0.4s ease';
             sealBtn.style.opacity = '0';
-            sealBtn.style.pointerEvents = 'none';
+            setTimeout(() => {
+                sealBtn.style.display = 'none';
+            }, 400);
+
             doorScreen.classList.add('door-open');
 
-            // ٣. لابردنی دەرگاکە و مانەوەی تەواوی پەڕەی کاتی بۆ ماوەی ٥ چرکە
+            // ٣. لابردنی پەڕەی دەرگا دوای کرانەوە و مانەوەی پەڕەی کاتی بۆ ماوەی ٥ چرکە
             setTimeout(() => {
                 doorScreen.style.display = 'none';
 
-                // پاش ٥ چرکە پەڕەی کاتی دەتوێتەوە و پەڕەی سەرەکی دەردەکەوێت
+                // پاش ٥ چرکە پەڕەی کاتی دەڕوات
                 setTimeout(() => {
+                    introScreen.style.transition = 'opacity 1.2s ease';
                     introScreen.style.opacity = '0';
                     introScreen.style.pointerEvents = 'none';
                     setTimeout(() => {
@@ -615,13 +621,10 @@
                 }, 5000);
 
             }, 1200);
-        }
+        };
 
-        sealBtn.addEventListener('click', handleOpen);
-        sealBtn.addEventListener('touchstart', handleOpen, { passive: true });
-
-        // کۆنتڕۆڵی دەنگ
-        musicToggle.addEventListener('click', () => {
+        // دوگمەی دەستکردی کۆنتڕۆڵی دەنگ
+        musicToggle.onclick = function() {
             if (bgMusic.paused) {
                 bgMusic.play();
                 musicToggle.innerHTML = '<i class="fa-solid fa-music"></i>';
@@ -629,7 +632,7 @@
                 bgMusic.pause();
                 musicToggle.innerHTML = '<i class="fa-solid fa-volume-xmark"></i>';
             }
-        });
+        };
 
         // کاتژمێری پێچەوانە
         const targetDate = new Date("November 2, 2027 14:00:00").getTime();
